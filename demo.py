@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from dwave.system.samplers import DWaveSampler
-from dwave.system.composites import EmbeddingComposite
+from dimod import SimulatedAnnealingSampler
 import re
 
 from maze import get_maze_bqm, Maze
@@ -30,11 +29,8 @@ m = Maze(n_rows, n_cols, start, end, walls)
 bqm = m.get_bqm()
 
 # Submit BQM to a D-Wave sampler
-sampler = EmbeddingComposite(DWaveSampler())
-result = sampler.sample(bqm,
-                        num_reads=1000,
-                        chain_strength=2,
-                        label='Example - Maze')
+sampler = SimulatedAnnealingSampler()
+result = sampler.sample(bqm, num_reads=1000)
 
 # Interpret result
 # Note: when grabbing the path, we are only grabbing path segments that have
